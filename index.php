@@ -1,9 +1,6 @@
 <?php 
     include 'template/header.php';
-    include 'template/footer.php';
 ?>
-
-
 
 <!DOCTYPE html>
 <html lang="en">
@@ -19,3 +16,7 @@
 	</div>
 </body>
 </html>
+
+<?php
+    // include 'template/footer.php';
+?>
