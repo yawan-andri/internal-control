@@ -1,6 +1,5 @@
 <?php 
-    include 'config/app.php'; 
-    // include 'assets/css/css.php';
+    include 'config/app.php';
 ?>
 
 <!DOCTYPE html>
@@ -15,8 +14,12 @@
     <link rel="stylesheet" href="https://cdn.datatables.net/2.1.2/css/dataTables.bootstrap5.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css" integrity="sha384-DyZ88mC6Up2uqS4h/KRgHuoeGwBcD4Ng9SiP4dIRy0EXTlnuz47vAwmeGwVChigm" crossorigin="anonymous"/>
     <link rel="stylesheet" href="assets/css/yearpicker.css">
+    <link href="assets/airdatepicker3/dist/air-datepicker.css" rel="stylesheet" type="text/css">
+    <script src="assets/airdatepicker3/dist/air-datepicker.js"></script> 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
     <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+    <script src="assets/js/yearpicker.js"></script>
+    
 </head>
 <body>
     <nav class="navbar navbar-expand-lg bg-body-tertiary shadow-sm p-3 mb-3 bg-body-tertiary rounded">
@@ -33,11 +36,10 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="sop-master.php">SOP</a></li>
-                            <li><a class="dropdown-item" href="das-master.php">DAS</a></li>
                             <li><a class="dropdown-item" href="panduan-master.php">Panduan Audit</a></li>
-                            <li><a class="dropdown-item" href="dir-master.php">Directory</a></li>
-                            <li><hr class="dropdown-divider"></li>
-                            <li><a class="dropdown-item" href="skb-master.php">SKB</a></li>
+                            <!-- <li><a class="dropdown-item" href="dir-master.php">Directory</a></li> -->
+                            <!-- <li><hr class="dropdown-divider"></li>
+                            <li><a class="dropdown-item" href="skb-master.php">SKB</a></li> -->
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -45,10 +47,9 @@
                             Transaksi
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="sop-master.php">Audit</a></li>
+                            <li><a class="dropdown-item" href="sop-audit.php">Audit</a></li>
                             <li><hr class="dropdown-divider"></li>
                             <li><a class="dropdown-item" href="das-master.php">Evaluasi Manager</a></li>
-                            <li><a class="dropdown-item" href="panduan-master.php">Solusi Masalah</a></li>
                         </ul>
                     </li>
                     <li class="nav-item dropdown">
@@ -67,6 +68,8 @@
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item" href="test1.php">Test 1</a></li>
                             <li><a class="dropdown-item" href="test2.php">Test 2</a></li>
+                            <li><a class="dropdown-item" href="test3.php">Test 3</a></li>
+                            <li><a class="dropdown-item" href="test4.php">Test 4</a></li>
                         </ul>
                     </li>
                 </ul>
@@ -82,5 +85,28 @@
             </div>
         </div>
     </nav>
+<script>
+
+    var tanggal = new Date();
+    var jperiod ;
+    jperiod = tanggal.getFullYear()+("0" + (tanggal.getMonth() + 1)).slice(-2);
+    // console.log(jperiod);
+
+    const localeEs = {
+        days: ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'],
+        daysShort: ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', ],
+        daysMin: ['Sun', 'Mo', 'Tu', 'We', 'Th', 'Fr', 'Sa'],
+        months: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+        monthsShort: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+        today: 'Now',
+        clear: 'Cancel',
+        dateFormat: 'dd/mm/yyyy',
+        timeFormat: 'hh:ii',
+        firstDay: 1
+    };
+
+
+
+</script>
 </body>
 </html>
