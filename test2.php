@@ -11,7 +11,8 @@
     <script type="text/javascript" src="https://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
 </head>
 <body>
-    <table id="dg" title="Master SOP" class="easyui-datagrid" url="load_test2.php?type_data=get_data" toolbar="#toolbar" pagination="true" rownumbers="true" fitColumns="true" singleSelect="true" style="width:100%;height:500px;">
+    <!-- <table id="dg" title="Master SOP" class="easyui-datagrid" url="load_test2.php?type_data=get_data" toolbar="#toolbar" pagination="true" rownumbers="true" fitColumns="true" singleSelect="true" style="width:100%;height:500px;"> -->
+    <table id="dg" class="easyui-datagrid" url="load_test2.php?type_data=get_data" toolbar="#toolbar" pagination="true" rownumbers="true" fitColumns="true" singleSelect="true" style="width:100%;height:500px;">
         <thead>
             <tr>
                 <th field="NoSOP" width="50">No SOP</th>
@@ -22,7 +23,7 @@
         </thead>
     </table>
 
-    <div id="toolbar">
+    <!-- <div id="toolbar">
         <div id="tb">
             <input id="term" placeholder="Type keywords...">
             <a href="javascript:void(0);" class="easyui-linkbutton" plain="true" onclick="doSearch()">Search</a>
@@ -32,7 +33,7 @@
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-edit" plain="true" onclick="editUser()">Edit User</a>
             <a href="javascript:void(0)" class="easyui-linkbutton" iconCls="icon-remove" plain="true" onclick="destroyUser()">Remove User</a>
         </div>
-    </div>
+    </div> -->
 
 
 <div id="dlg" class="easyui-dialog" style="width:500px" data-options="closed:true,modal:true,border:'thin',buttons:'#dlg-buttons'">

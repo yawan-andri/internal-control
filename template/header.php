@@ -88,7 +88,7 @@
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
                         <li><a class="dropdown-item" href="#">Pengaturan</a></li>
-                        <li><a class="dropdown-item" href="#">Keluar</a></li>
+                        <li><a class="dropdown-item" href="#" onclick="logout()">Keluar</a></li>
                     </ul>
                 </div>
             </div>
@@ -114,7 +114,9 @@
         firstDay: 1
     };
 
-
+    function logout() {
+        window.location.href = 'logout.php';
+    }
 
 </script>
 </body>
