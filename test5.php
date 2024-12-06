@@ -14,14 +14,12 @@ if ($type == 'get_data') {
 
         $offset = ($page - 1) * $rows;
 
-        // Get total count with filters
         $countQuery = "SELECT COUNT(*) FROM view_sopmaster";
         $countStmt = $conn->prepare($countQuery);
         $countStmt->execute();
         $row = $countStmt->fetch(PDO::FETCH_NUM);
         $response["total"] = $row[0];
 
-        // Get filtered data with pagination
         $dataQuery = "SELECT * FROM view_sopmaster
                       ORDER BY $sort $order
                       OFFSET cast(? as int) ROWS FETCH NEXT cast(? as int) ROWS ONLY";
