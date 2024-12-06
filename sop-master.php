@@ -195,7 +195,7 @@
                             </a>
                             <a href="sop-das.php?NoSOP=${row.NoSOP}&NamaSOP=${row.NamaSOP}" 
                                 class="btn btn-outline-secondary btn-sm me-1">
-                                <i class="fas fa-external-link-alt"></i> DAS
+                                DAS
                             </a>
                             <a href="javascript:void(0)" 
                                 onclick="editData(

@@ -2,13 +2,13 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>DataGrid with Filter and Sort</title>
+    <title>DataGrid with Remote Filter</title>
     <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/icon.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="https://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
+    <script src="https://www.jeasyui.com/easyui/datagrid-filter.js"></script>
     <style>
         .datagrid-row {
             height: 60px !important;
@@ -33,7 +33,7 @@
 
     <script type="text/javascript">
         $(function() {
-            $('#dg').datagrid({
+            var dg = $('#dg').datagrid({
                 url: 'test5.php?type_data=get_data&title_data=sop_master',
                 method: 'post',
                 frozenColumns: [[
@@ -46,10 +46,30 @@
                     { field: 'JumlahDAS', title: 'Jumlah DAS', width: 200, sortable: true },
                     { field: 'action', title: 'Kolom Aksi', width: 250, formatter: actionFormatter }
                 ]],
+                remoteFilter: true,
                 onLoadSuccess: function() {
                     $('.datagrid-row').css('height', '60px');
                 }
             });
+
+            // Aktifkan filter
+            dg.datagrid('enableFilter', [
+                {
+                    field: 'DivisiMain',
+                    type: 'textbox',
+                    op: ['contains']
+                },
+                {
+                    field: 'KategoriSOP',
+                    type: 'textbox',
+                    op: ['contains']
+                },
+                {
+                    field: 'JumlahDAS',
+                    type: 'numberbox',
+                    op: ['less', 'greater']
+                }
+            ]);
         });
 
         function actionFormatter(value, row, index) {
