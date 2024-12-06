@@ -1,33 +1,90 @@
-<?php
-include 'config/app.php';
-session_start();
-
-try {
-    if ($_SERVER['REQUEST_METHOD'] === 'POST') {
-        $username = $_POST['username'];
-        $password = $_POST['password'];
-
-        // Cek apakah username ada di database
-        $stmt = $conn->prepare("SELECT id, password, username FROM tbUserID WHERE username = :username");
-        $stmt->bindParam(':username', $username);
-        $stmt->execute();
-
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
-
-        if ($user && password_verify($password, $user['password'])) {
-            // Login berhasil
-            $_SESSION['username'] = $user['username'];
-            $_SESSION['user_id'] = $user['id'];
-            header("Location: index.php");
-            exit;
-        } else {
-            // Login gagal
-            $_SESSION['failed_login'] = true;
-            header("Location: login.php");
-            exit;
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>DataGrid with Frozen Columns and Custom Row Height</title>
+    <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/icon.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="https://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
+    <style>
+        .datagrid-row {
+            height: 60px !important;
         }
-    }
-} catch (PDOException $e) {
-    echo "Error: " . $e->getMessage();
-}
-?>
+        .datagrid-cell {
+            vertical-align: middle !important;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <h3 class = "text-center">SOP MASTER</h3>
+
+    <div class="ms-3 me-3">
+        <table id="dg" class="easyui-datagrid" style="width:100%;height:700px;"
+            data-options="
+                pagination: true,
+                rownumbers: true,
+                fitColumns: false,
+                singleSelect: true">
+        </table>
+    </div>
+
+    <script type="text/javascript">
+        $(function() {
+            $('#dg').datagrid({
+                url: 'test3.php?type_data=get_data&title_data=sop_master',
+                method: 'post',
+                frozenColumns: [[
+                    { field: 'NoSOP', title: 'No SOP', width: 200 },
+                    { field: 'NamaSOP', title: 'Nama SOP', width: 500 }
+                ]],
+                columns: [[
+                    { field: 'DivisiMain', title: 'Divisi Main', width: 200 },
+                    { field: 'KategoriSOP', title: 'Kategori SOP', width: 200 },
+                    { field: 'JumlahDAS', title: 'Jumlah DAS', width: 200 },
+                    { field: 'action', title: 'Kolom Aksi', width: 250, formatter: actionFormatter }
+                ]],
+                onLoadSuccess: function() {
+                    $('.datagrid-row').css('height', '60px');
+                }
+            });
+        });
+
+        function actionFormatter(value, row, index) {
+            return `
+                <a href="sop-master-detail.php?NoSOP=${row.NoSOP}" 
+                    class="btn btn-outline-secondary btn-sm me-1">
+                    <i class="fas fa-list"></i> Detail
+                </a>
+                <a href="sop-das.php?NoSOP=${row.NoSOP}&NamaSOP=${row.NamaSOP}" 
+                    class="btn btn-outline-secondary btn-sm me-1">
+                    <i class="fas fa-external-link-alt"></i> DAS
+                </a>
+                <a href="javascript:void(0)" 
+                    onclick="editData('${row.NoSOP}', '${row.NamaSOP}', '${row.DivisiMain}', '${row.KategoriSOP}');" 
+                    class="btn btn-warning btn-sm me-1">
+                    <i class="far fa-edit"></i> Edit
+                </a>
+                <a href="javascript:void(0)" 
+                    onclick="deleteData('${row.NoSOP}');" 
+                    class="btn btn-danger btn-sm">
+                    <i class="far fa-trash-alt"></i> Delete
+                </a>
+            `;
+        }
+
+        function editData(NoSOP, NamaSOP, DivisiMain, KategoriSOP) {
+            alert(`Edit Data:\nNo SOP: ${NoSOP}\nNama SOP: ${NamaSOP}\nDivisi Main: ${DivisiMain}\nKategori SOP: ${KategoriSOP}`);
+        }
+
+        function deleteData(NoSOP) {
+            if (confirm(`Are you sure you want to delete No SOP: ${NoSOP}?`)) {
+                alert(`Data with No SOP: ${NoSOP} deleted.`);
+            }
+        }
+    </script>
+</body>
+</html>

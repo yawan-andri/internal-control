@@ -2,12 +2,13 @@
 <html>
 <head>
     <meta charset="UTF-8">
-    <title>Internal Control</title>
+    <title>DataGrid with Filter and Sort</title>
     <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/default/easyui.css">
     <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/icon.css">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
     <script src="https://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/moment@2.29.4/moment.min.js"></script>
     <style>
         .datagrid-row {
             height: 60px !important;
@@ -19,36 +20,9 @@
     </style>
 </head>
 <body>
-
-    <h3 class = "text-center">SOP MASTER</h3>
-
+    <h3 class="text-center">SOP MASTER</h3>
     <div class="ms-3 me-3">
-        <div class="row mb-3">
-            <div class="col-lg-2">
-                <div class="form-group">
-                    <label for="divisifil">Divisi</label>
-                    <select name="divisifil" id="divisifil" class="form-control form-control-sm">
-                        <option value="">Semua Divisi</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-lg-2">
-                <div class="form-group">
-                    <label for="kategorifil">Kategori SOP</label>
-                    <select name="kategorifil" id="kategorifil" class="form-control form-control-sm">
-                        <option value="">Semua Kategori</option>
-                        <option value="SOP">SOP</option>
-                        <option value="PRA-SOP">PRA-SOP</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-lg-2">
-                <button id="btnFilter" class="btn btn-primary btn-sm mt-4">Filter</button>
-            </div>
-        </div>
-
-
-        <table id="dg" class="easyui-datagrid" style="width:100%;height:500px;"
+        <table id="dg" class="easyui-datagrid" style="width:100%;height:670px;"
             data-options="
                 pagination: true,
                 rownumbers: true,
@@ -59,38 +33,22 @@
 
     <script type="text/javascript">
         $(function() {
-            // Load initial data for the dropdown
-            getDivisi();
-
-            // Initialize DataGrid
             $('#dg').datagrid({
-                url: 'test3.php',
+                url: 'test5.php?type_data=get_data&title_data=sop_master',
                 method: 'post',
-                queryParams: {
-                    divisifil: '', // Default filter values
-                    kategorifil: ''
-                },
                 frozenColumns: [[
-                    { field: 'NoSOP', title: 'No SOP', width: 150 },
-                    { field: 'NamaSOP', title: 'Nama SOP', width: 200 }
+                    { field: 'NoSOP', title: 'No SOP', width: 200, sortable: true },
+                    { field: 'NamaSOP', title: 'Nama SOP', width: 500, sortable: true }
                 ]],
                 columns: [[
-                    { field: 'DivisiMain', title: 'Divisi Main', width: 150 },
-                    { field: 'KategoriSOP', title: 'Kategori SOP', width: 150 },
+                    { field: 'DivisiMain', title: 'Divisi Main', width: 200, sortable: true },
+                    { field: 'KategoriSOP', title: 'Kategori SOP', width: 200, sortable: true },
+                    { field: 'JumlahDAS', title: 'Jumlah DAS', width: 200, sortable: true },
                     { field: 'action', title: 'Kolom Aksi', width: 250, formatter: actionFormatter }
-                ]]
-            });
-
-            // Event listener for filter button
-            $('#btnFilter').on('click', function() {
-                var divisifil = $('#divisifil').val();
-                var kategorifil = $('#kategorifil').val();
-
-                // Reload DataGrid with new filters
-                $('#dg').datagrid('load', {
-                    divisifil: divisifil,
-                    kategorifil: kategorifil
-                });
+                ]],
+                onLoadSuccess: function() {
+                    $('.datagrid-row').css('height', '60px');
+                }
             });
         });
 
@@ -125,12 +83,6 @@
             if (confirm(`Are you sure you want to delete No SOP: ${NoSOP}?`)) {
                 alert(`Data with No SOP: ${NoSOP} deleted.`);
             }
-        }
-
-        function getDivisi() {
-            $.post('test3.php', { masterData: 'getDivisi' }, function(data) {
-                $('#divisifil').html('<option value="">Semua Divisi</option>' + data);
-            });
         }
     </script>
 </body>
