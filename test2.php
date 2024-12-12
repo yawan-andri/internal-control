@@ -66,7 +66,7 @@
     function newSOP(){
         $('#dlg').dialog('open').dialog('center').dialog('setTitle','New User');
         $('#fm').form('clear');
-        url = 'load_test2.php?type_data=add_data';
+        url = 'test2_getdata.php?type_data=add_data';
     }
 
     function editUser(){

@@ -584,6 +584,63 @@
         });
     }
 
+    // function getAuditDetail() {
+    //     const rowsPerPageSelect = $('#rowsPerPageSelect').val();
+
+    //     $.post("data/get_data.php", {
+    //         AuditDetail: "getData",
+    //         notrans: NoTrans,
+    //         page: currentPage,
+    //         rowsPerPage: rowsPerPageSelect
+    //     })
+    //     .done(function(response) {
+    //         console.log("Response:", response);
+    //         if (response && response.data) {
+    //             $("#auditDetail").empty();
+                
+    //             response.data.forEach((row, index) => {
+    //                 const tableRow = `<tr>
+    //                     <td>${(currentPage - 1) * rowsPerPage + index + 1}</td>
+    //                     <td>${row.DAS}</td>
+    //                     <td>${row.KategoriTemuan}</td>
+    //                     <td>${row.Temuan}</td>
+    //                     <td>${row.Resiko}</td>
+    //                     <td>${row.SaranIC}</td>
+    //                     <td>${row.StatusTB}</td>
+    //                     <td>
+    //                         <a href="javascript:void(0)" 
+    //                             onclick="editDataTemuan(
+    //                                 '${row.NoUrut}',
+    //                                 '${row.nomorDAS}',
+    //                                 '${row.KategoriTemuan}',
+    //                                 '${row.Temuan}',
+    //                                 '${row.Resiko}',
+    //                                 '${row.SaranIC}',
+    //                                 '${row.StatusTB}',
+    //                                 '${row.Keterangan}'
+    //                                 );" 
+    //                             class="btn btn-warning btn-sm me-1">Edit
+    //                         </a>
+    //                         <a href="javascript:void(0)" 
+    //                             onclick="deleteData(
+    //                                 'temuan',
+    //                                 '${row.NoUrut}');" 
+    //                             class="btn btn-danger btn-sm">Delete
+    //                         </a>
+    //                     </td>
+    //                 </tr>`;
+    //                 $("#auditDetail").append(tableRow);
+    //             });
+    //             updatePagination(response.totalPages);
+    //         } else {
+    //             console.error("Unexpected response format:", response);
+    //         }
+    //     })
+    //     .fail(function(jqXHR, textStatus, errorThrown) {
+    //         console.error("Request failed:", textStatus, errorThrown);
+    //     });
+    // }
+
     function getAuditDetail() {
         const rowsPerPageSelect = $('#rowsPerPageSelect').val();
 
@@ -597,7 +654,7 @@
             console.log("Response:", response);
             if (response && response.data) {
                 $("#auditDetail").empty();
-                
+
                 response.data.forEach((row, index) => {
                     const tableRow = `<tr>
                         <td>${(currentPage - 1) * rowsPerPage + index + 1}</td>
@@ -609,28 +666,28 @@
                         <td>${row.StatusTB}</td>
                         <td>
                             <a href="javascript:void(0)" 
-                                onclick="editDataTemuan(
-                                    '${row.NoUrut}',
-                                    '${row.nomorDAS}',
-                                    '${row.KategoriTemuan}',
-                                    '${row.Temuan}',
-                                    '${row.Resiko}',
-                                    '${row.SaranIC}',
-                                    '${row.StatusTB}',
-                                    '${row.Keterangan}'
-                                    );" 
-                                class="btn btn-warning btn-sm me-1">Edit
+                                class="btn btn-warning btn-sm me-1 edit-btn" 
+                                data-nomor="${row.NoUrut}"
+                                data-das="${row.nomorDAS}"
+                                data-kategori="${row.KategoriTemuan}"
+                                data-temuan="${row.Temuan}"
+                                data-resiko="${row.Resiko}"
+                                data-saran="${row.SaranIC}"
+                                data-status="${row.StatusTB}"
+                                data-keterangan="${row.Keterangan}">Edit
                             </a>
                             <a href="javascript:void(0)" 
-                                onclick="deleteData(
-                                    'temuan',
-                                    '${row.NoUrut}');" 
+                                onclick="deleteData('temuan', '${row.NoUrut}');" 
                                 class="btn btn-danger btn-sm">Delete
                             </a>
                         </td>
                     </tr>`;
                     $("#auditDetail").append(tableRow);
                 });
+
+                // Attach event listener for edit buttons
+                attachEditTemuan();
+
                 updatePagination(response.totalPages);
             } else {
                 console.error("Unexpected response format:", response);
@@ -959,20 +1016,39 @@
         }
     }
 
-    function editDataTemuan(nomor_temuan, das_temuan, kat_temuan, temuan_temuan, resiko_temuan, saran_temuan, status_temuan, ket_temuan ) {
-        $("#nomor_temuan").val(nomor_temuan);
-        $("#das_temuan").val(das_temuan);
-        $("#kat_temuan").val(kat_temuan);
-        $("#temuan_temuan").val(temuan_temuan);
-        $("#resiko_temuan").val(resiko_temuan);
-        $("#saran_temuan").val(saran_temuan);
-        $("#status_temuan").val(status_temuan);
-        $("#ket_temuan").val(ket_temuan);
-        $("#alert_Temuan").hide();
-        $("#modalTemuan").modal('show');
-        $("#buttonTemuan").html("Save");
+    // function editDataTemuan(nomor_temuan, das_temuan, kat_temuan, temuan_temuan, resiko_temuan, saran_temuan, status_temuan, ket_temuan ) {
+    //     $("#nomor_temuan").val(nomor_temuan);
+    //     $("#das_temuan").val(das_temuan);
+    //     $("#kat_temuan").val(kat_temuan);
+    //     $("#temuan_temuan").val(temuan_temuan);
+    //     $("#resiko_temuan").val(resiko_temuan);
+    //     $("#saran_temuan").val(saran_temuan);
+    //     $("#status_temuan").val(status_temuan);
+    //     $("#ket_temuan").val(ket_temuan);
+    //     $("#alert_Temuan").hide();
+    //     $("#modalTemuan").modal('show');
+    //     $("#buttonTemuan").html("Save");
+    // }
+
+    function attachEditTemuan() {
+        $(".edit-btn").on("click", function () {
+            const btn = $(this); // jQuery object for the button
+
+            $("#nomor_temuan").val(btn.data("nomor"));
+            $("#das_temuan").val(btn.data("das"));
+            $("#kat_temuan").val(btn.data("kategori"));
+            $("#temuan_temuan").val(btn.data("temuan"));
+            $("#resiko_temuan").val(btn.data("resiko"));
+            $("#saran_temuan").val(btn.data("saran"));
+            $("#status_temuan").val(btn.data("status"));
+            $("#ket_temuan").val(btn.data("keterangan"));
+
+            $("#alert_Temuan").hide();
+            $("#modalTemuan").modal("show");
+            $("#buttonTemuan").html("Save");
+        });
     }
-    
+
     $("form#temuan_form").on("submit", function (e) {
         e.preventDefault();
         

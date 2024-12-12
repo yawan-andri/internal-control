@@ -1,31 +1,60 @@
-<?php
-include "config/app.php"; 
-
-$type = $_GET['type_data'];
-$title_data = $_GET['title_data'];
-
-if ($type == 'get_data') {
-    if ($title_data == 'sop_master') {
-        $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
-        $rows = isset($_POST['rows']) ? intval($_POST['rows']) : 10;
+<!doctype html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Remote Filtering on DataGrid - jQuery EasyUI Demo</title>
+    <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/default/easyui.css">
+    <link rel="stylesheet" type="text/css" href="https://www.jeasyui.com/easyui/themes/icon.css">
+    <script type="text/javascript" src="https://www.jeasyui.com/easyui/jquery.min.js"></script>
+    <script type="text/javascript" src="https://www.jeasyui.com/easyui/jquery.easyui.min.js"></script>
+</head>
+<body>
+    <h2>Remote Filtering on DataGrid</h2>
+    <p>This sample shows how to apply remote filtering and pagination on a datagrid component.</p>
     
-        $offset = ($page - 1) * $rows;
-    
-        $countQuery = "SELECT COUNT(*) FROM view_sopmaster";
-        $countStmt = $conn->prepare($countQuery);
-        $countStmt->execute();
-        $row = $countStmt->fetch(PDO::FETCH_NUM);
-        $response["total"] = $row[0];
-    
-        $dataQuery = "SELECT * FROM view_sopmaster
-                      ORDER BY NoSOP ASC
-                      OFFSET cast(? as int) ROWS FETCH NEXT cast(? as int) ROWS ONLY";
-        $dataStmt = $conn->prepare($dataQuery);
-        $dataStmt->execute([$offset, $rows]);
-        $users = $dataStmt->fetchAll(PDO::FETCH_ASSOC);
-        $response["rows"] = $users;
-    
-        header('Content-Type: application/json');
-        echo json_encode($response);
-    }
-}
+    <table id="dg" title="DataGrid" style="width:700px;height:250px">
+        <thead>
+            <tr>
+                <th data-options="field:'NoSOP',width:80">No SOP</th>
+                <th data-options="field:'NamaSOP',width:100">Nama SOP</th>
+                <th data-options="field:'DivisiMain',width:80,align:'right'">Divisi</th>
+                <th data-options="field:'KategoriSOP',width:80,align:'right'">Kategori SOP</th>
+                <th data-options="field:'JumlahDAS',width:250">Jumlah DAS</th>
+            </tr>
+        </thead>
+    </table>
+    <script type="text/javascript">
+        $(function(){
+            var dg = $('#dg').datagrid({
+                url: 'test3_getdata.php',
+                pagination: true,
+                clientPaging: false,
+                remoteFilter: true,
+                rownumbers: true
+            });
+            dg.datagrid('enableFilter', [{
+                field:'KategoriSOP',
+                type:'combobox',
+                trigger: 'none',
+                options:{
+                    panelHeight:'auto',
+                    selectOnNavigation: false,
+                    data:[{value:'',text:'All'},{value:'SOP',text:'SOP'},{value:'PRA-SOP',text:'PRA-SOP'}],
+                    onChange:function(value){
+                        if (value == ''){
+                            dg.datagrid('removeFilterRule', 'KategoriSOP');
+                        } else {
+                            dg.datagrid('addFilterRule', {
+                                field: 'KategoriSOP',
+                                op: 'equal',
+                                value: value
+                            });
+                        }
+                        dg.datagrid('doFilter');
+                    }
+                }
+            }]);
+        });
+    </script>
+</body>
+</html>

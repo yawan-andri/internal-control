@@ -35,7 +35,7 @@
     <script type="text/javascript">
         $(function() {
             $('#dg').datagrid({
-                url: 'test3.php?type_data=get_data&title_data=sop_master',
+                url: 'test4_getdata.php?type_data=get_data&title_data=sop_master',
                 method: 'post',
                 frozenColumns: [[
                     { field: 'NoSOP', title: 'No SOP', width: 200 },
