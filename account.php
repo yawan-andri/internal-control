@@ -81,12 +81,6 @@
         class="btn btn-primary btn-sm mb-2"> 
         <i class="fa fa-plus-circle"></i> Tambah Master
     </a>
-    <a href="javaScript:void(0);" 
-        onclick="tambahAksesGroup()" 
-        data-bs-toggle="modal" 
-        class="btn btn-primary btn-sm mb-2"> 
-        <i class="fa fa-plus-circle"></i> Tambah Group Akses
-    </a>
     <div class="table-responsive text-center">
         <table class="table table-bordered table-hover">
             <thead id="thead">
