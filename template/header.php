@@ -87,7 +87,7 @@
                         Halo, <?= $login_username; ?>
                     </button>
                     <ul class="dropdown-menu dropdown-menu-end">
-                        <li><a class="dropdown-item" href="#">Pengaturan</a></li>
+                        <li><a class="dropdown-item" href="account.php">Pengaturan</a></li>
                         <li><a class="dropdown-item" href="#" onclick="logout()">Keluar</a></li>
                     </ul>
                 </div>

@@ -14,10 +14,6 @@
 <body>
     <div class="container">
         <div class="box-login">
-            <!-- <form 
-                action="test4.php" 
-                method="post"
-                >  -->
             <form id="login">
                 <center>
                     <h3>Login</h3>
